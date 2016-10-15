@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/home_48"
+            android:title="@string/lbl_nav_home" />
+        <item
+            android:id="@+id/nav_search"
+            android:icon="@drawable/search_filled_50"
+            android:title="@string/lbl_nav_search" />
+        <item
+            android:id="@+id/nav_shoppingCar"
+            android:icon="@drawable/shopping_cart_loaded_filled_50"
+            android:title="@string/lbl_nav_shopping_car" />
+        <item
+            android:id="@+id/nav_shopping_history"
+            android:icon="@drawable/shopping_bag_filled_50"
+            android:title="@string/lbl_nav_shopping_history" />
+    </group>
+
+    <item android:title="@string/txt_tools">
+        <menu>
+            <item
+                android:id="@+id/nav_editProfile"
+                android:icon="@drawable/create_new_52"
+                android:title="@string/lbl_edit_profile" />
+
+        </menu>
+    </item>
+
+</menu>
