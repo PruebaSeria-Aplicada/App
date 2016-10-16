@@ -106,7 +106,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:backgroundTint="@color/colorAccent"
+            android:backgroundTint="@color/colorPrimary"
+            android:textColor="@android:color/white"
             android:text="@string/txt_btn_sale" />
 
         <Button

@@ -14,10 +14,10 @@
             android:id="@+id/nav_shoppingCar"
             android:icon="@drawable/shopping_cart_loaded_filled_50"
             android:title="@string/lbl_nav_shopping_car" />
-        <item
+        <!--<item
             android:id="@+id/nav_shopping_history"
             android:icon="@drawable/shopping_bag_filled_50"
-            android:title="@string/lbl_nav_shopping_history" />
+            android:title="@string/lbl_nav_shopping_history" />-->
     </group>
 
     <item android:title="@string/txt_tools">

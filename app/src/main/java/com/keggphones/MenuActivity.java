@@ -341,16 +341,14 @@ public class MenuActivity extends AppCompatActivity
             Intent search = new Intent(MenuActivity.this,SearchPhoneActivity.class);
             startActivity(search);
 
-        } else if (id == R.id.nav_shopping_history) {
-
         } else if (id == R.id.nav_shoppingCar) {
 
         } else if (id == R.id.nav_editProfile) {
             Intent editProfile = new Intent(MenuActivity.this, EditProfileActivity.class);
             startActivity(editProfile);
-            finish();
 
         }
+        //else if (id == R.id.nav_shopping_history) {}
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

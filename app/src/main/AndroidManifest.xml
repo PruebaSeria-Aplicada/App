@@ -32,7 +32,8 @@
             android:value="@integer/google_play_services_version" />
 
         <activity android:name=".DetailPhoneActivity" />
-        <activity android:name=".SearchPhoneActivity"></activity>
+        <activity android:name=".SearchPhoneActivity" />
+        <activity android:name=".ReportSaleActivity"></activity>
     </application>
 
 </manifest>

@@ -1,5 +1,6 @@
 package com.keggphones;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -10,7 +11,12 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
+
 public class DetailPhoneActivity extends AppCompatActivity {
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,8 +68,9 @@ public class DetailPhoneActivity extends AppCompatActivity {
         btnSale.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-               message();
+                Intent report = new Intent(DetailPhoneActivity.this,ReportSaleActivity.class);
+                startActivity(report);
+                finish();
             }
         });
 
@@ -71,7 +78,7 @@ public class DetailPhoneActivity extends AppCompatActivity {
         btnAddCar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                message();
             }
         });
 
@@ -80,7 +87,7 @@ public class DetailPhoneActivity extends AppCompatActivity {
     }
 
     public void message(){
-        Toast.makeText(this, "La compra se realizó con éxito", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Producto agregado al carrito", Toast.LENGTH_LONG).show();
     }
 
 }
