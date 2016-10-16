@@ -8,6 +8,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:scrollbars="vertical"
+    android:background="@color/cardview_light_background"
     tools:context="com.keggphones.DetailPhoneActivity">
 
     <LinearLayout
@@ -29,7 +30,7 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/ic_album_overflow_height"
             android:layout_below="@+id/imc_phone"
-            android:text="Características:"/>
+            android:text="Características"/>
 
         <TextView
             android:id="@+id/txv_brand"
@@ -88,19 +89,35 @@
             android:layout_below="@+id/txv_resolution"
             android:text="Precio:"/>
 
-        <Button
-            android:id="@+id/btn_sale"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/txv_price"
-            android:drawableRight="@drawable/shopping_cart_loaded_filled_50"
-            android:backgroundTint="@color/colorAccent"
-            android:text="@string/txt_btn_sale"
-            android:layout_marginTop="10dp"
-            android:textColor="@android:color/white"
-            />
+
+
 
     </LinearLayout>
+    <LinearLayout
+        android:id="@+id/bottom_bar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentBottom="true"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
+        <Button
+            android:id="@+id/btn_sale"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/colorAccent"
+            android:text="@string/txt_btn_sale" />
+
+        <Button
+            android:id="@+id/btn_add_car"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/colorPrimary"
+            android:text="@string/txt_add_car"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
+  
 
 </RelativeLayout>

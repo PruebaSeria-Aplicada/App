@@ -63,7 +63,14 @@ public class PhoneAdapter extends RecyclerView.Adapter<PhoneAdapter.MyViewHolder
         holder.txvModel.setText(phone.getBrand());
         holder.txvPrice.setText("₡ " + phone.getPrice());
         holder.txvPriceDolar.setText("$ " +phone.getPriceDolar());
-        Glide.with(mContext).load(phone.getImage()).into(holder.imcPhone);
+
+        try {
+            Glide.with(mContext).load(phone.getImagePhone()).into(holder.imcPhone);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
         holder.imcPhone.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,7 +90,7 @@ public class PhoneAdapter extends RecyclerView.Adapter<PhoneAdapter.MyViewHolder
                 detailPhone.putExtra("Flash",flash);
                 detailPhone.putExtra("Resolution",phone.getResolution().toString());
                 detailPhone.putExtra("Price",String.valueOf(phone.getPrice()));
-                detailPhone.putExtra("Image",phone.getImage());
+                detailPhone.putExtra("Image",phone.getImagePhone());
                 mContext.startActivity(detailPhone);
 
             }

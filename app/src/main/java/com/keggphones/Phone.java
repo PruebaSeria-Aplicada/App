@@ -17,11 +17,11 @@ public class Phone {
     private int priceDolar;
     private int quantity;
     private String imagePhone;
-    private int image;
+
 
     public Phone(String brand, String model, String internalMemory, String externalMemory,
-                 int pixels, byte flash, String resolution, int price, int priceDolar, int image) {
-        Brand = brand;
+                 int pixels, byte flash, String resolution, int price, int priceDolar, String image) {
+        this.Brand = brand;
         this.model = model;
         this.internalMemory = internalMemory;
         this.externalMemory = externalMemory;
@@ -29,35 +29,10 @@ public class Phone {
         this.flash = flash;
         this.resolution = resolution;
         this.price = price;
-        this.image = image;
+        this.imagePhone = image;
         this.priceDolar = priceDolar;
     }
 
-    public Phone(String model, int price, int priceDolar, int image){
-        this.model = model;
-        this.price = price;
-        this.priceDolar = priceDolar;
-        this.image = image;
-
-    }
-
-    /*
-    public Phone(int idPhone, int idBrand, String model,
-                 String internalMemory, String externalMemory,
-                 int pixels, byte flash, String resolution,
-                 int price, int quantity, String imagePhone) {
-        this.idPhone = idPhone;
-        this.idBrand = idBrand;
-        this.model = model;
-        this.internalMemory = internalMemory;
-        this.externalMemory = externalMemory;
-        this.pixels = pixels;
-        this.flash = flash;
-        this.resolution = resolution;
-        this.price = price;
-        this.quantity = quantity;
-        this.imagePhone = imagePhone;
-    }*/
 
     public int getIdPhone() {
         return idPhone;
@@ -140,13 +115,6 @@ public class Phone {
         this.imagePhone = imagePhone;
     }
 
-    public int getImage() {
-        return image;
-    }
-
-    public void setImage(int image) {
-        this.image = image;
-    }
 
     public int getPriceDolar() {
         return priceDolar;

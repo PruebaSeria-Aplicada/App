@@ -26,7 +26,7 @@ public class DetailPhoneActivity extends AppCompatActivity {
         String flash = extras.getString("Flash");
         String resolution = extras.getString("Resolution");
         String price = extras.getString("Price");
-        int image = extras.getInt("Image");
+        String image = extras.getString("Image");
 
 
         TextView txvBrand = (TextView)findViewById(R.id.txv_brand);
@@ -38,7 +38,7 @@ public class DetailPhoneActivity extends AppCompatActivity {
         TextView txvResolution = (TextView)findViewById(R.id.txv_resolution);
         TextView txvPrice = (TextView)findViewById(R.id.txv_price);
 
-        ImageView imvPhone = (ImageView)findViewById(R.id.imc_phone);
+
 
         txvBrand.setText(txvBrand.getText() +" "+ brand );
         txvModel.setText(txvModel.getText() +" "+ model);
@@ -64,6 +64,14 @@ public class DetailPhoneActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                message();
+            }
+        });
+
+        Button btnAddCar = (Button)findViewById(R.id.btn_add_car);
+        btnAddCar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
 

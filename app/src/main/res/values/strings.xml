@@ -32,6 +32,6 @@
     <string name="txt_IOS">iOS</string>
     <string name="txt_microsoft">Windows</string>
     <string name="txt_btn_sale">Comprar</string>
-
+    <string name="txt_add_car">Agregar al carrito</string>
 
 </resources>

@@ -12,7 +12,6 @@
 
     <LinearLayout
         android:id="@+id/area_name"
-        android:layout_marginTop="@dimen/top_regis"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -247,7 +246,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:backgroundTint="@color/colorAccent"
+            android:backgroundTint="@color/colorPrimary"
             android:drawableLeft="@drawable/user_folder_48"
             android:text="@string/btn_accept"
             android:textColor="@android:color/white" />

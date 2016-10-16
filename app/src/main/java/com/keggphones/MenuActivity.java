@@ -2,6 +2,8 @@ package com.keggphones;
 
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
@@ -32,6 +34,9 @@ import com.bumptech.glide.Glide;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,17 +48,11 @@ public class MenuActivity extends AppCompatActivity
     private PhoneAdapter adapter;
     private ArrayList<Phone> phoneList;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
-
-        /*
-        Bundle settings = getIntent().getExtras();
-        String userName = settings.getString("userName");
-        Toast.makeText(this, userName, Toast.LENGTH_LONG).show();
-        TextView txvUserName = (TextView)findViewById(R.id.txt_name_user_menu);
-        txvUserName.setText(userName);*/
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -71,7 +70,16 @@ public class MenuActivity extends AppCompatActivity
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
 
-        initPhoneCardAll();
+        try {
+            Glide.with(this).load(R.drawable.side_nav_bar).into((ImageView) findViewById(R.id.backdrop));
+        } catch (Exception e) { e.printStackTrace(); }
+
+        if(SearchPhoneActivity.wordSearch != null){
+            simulateSearch(SearchPhoneActivity.wordSearch);
+        }else{
+            initPhoneCardAll();
+        }
+
 
 
         Button btnAll = (Button)findViewById(R.id.btn_All);
@@ -106,16 +114,6 @@ public class MenuActivity extends AppCompatActivity
             }
         });
 
-
-
-
-        try {
-            Glide.with(this).load(R.drawable.side_nav_bar).into((ImageView) findViewById(R.id.backdrop));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -128,9 +126,10 @@ public class MenuActivity extends AppCompatActivity
     }
 
 
+
     //Se cargan las cardView con todos los artíuclos
     public void initPhoneCardAll(){
-
+        phoneList.clear();
         String[] brandPhones = new String[]{
                 "Samsung","Huawei","BLU","CAT","Sony","Alcatel","Hiunday","Coolpad","Google","Yezz",
         "iPhone 7 Plus "," iPhone 7 ","iPhone 6s Plus","iPhone 6s","iPhone SE","iPhone 5",
@@ -141,16 +140,16 @@ public class MenuActivity extends AppCompatActivity
             int priceDolar = (int)(Math.random()*600+50);
             if(i < 10) {
                 Phone phone = new Phone(brandPhones[i],"algún modelo será","4 GB","128 GB",10,
-                        (byte)1,"1080 x 480",priceColones,priceDolar,R.drawable.celular_libre_samsung_galaxy_j7_4g_white);
+                        (byte)1,"1080 x 480",priceColones,priceDolar,"https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRPGRi9IPqVgUWKRCFuq5h8zRtT7rx46s-lcgcRLcO6Aa_J_KCDTg");
                 phoneList.add(phone);
             } else if (i < 19){
                 Phone phone = new Phone(brandPhones[i],"algún modelo será","3 GB","100 GB",80,
-                        (byte)1,"1080 x 480",priceColones,priceDolar,R.drawable.iphone);
+                        (byte)1,"1080 x 480",priceColones,priceDolar,"http://s.newsweek.com/sites/www.newsweek.com/files/styles/embed-lg/public/2016/03/02/iphone-7-apple-rumors-leaks-specs-camera.jpg");
                 //Phone phone  = new Phone(brandPhones[i],priceColones,priceDolar, R.drawable.iphone);
                 phoneList.add(phone);
             }else{
                 Phone phone = new Phone(brandPhones[i],"algún modelo será","3 GB","100 GB",18,
-                        (byte)1,"1080 x 480",priceColones,priceDolar,R.drawable.lumia);
+                        (byte)1,"1080 x 480",priceColones,priceDolar,"https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcTPxIkgmVWZ2LGPbUOKMKpCfovJ4CIKnjEP8pNSVRPcrLVoiAYFIg");
                 //Phone phone  = new Phone(brandPhones[i],priceColones,priceDolar, R.drawable.lumia);
                 phoneList.add(phone);
             }
@@ -170,7 +169,7 @@ public class MenuActivity extends AppCompatActivity
             int priceColones = (int)(Math.random()*200000+10000);
             int priceDolar = (int)(Math.random()*600+50);
             Phone phone = new Phone(brandPhones[i],"algún modelo será","4 GB","128 GB",10,
-                    (byte)1,"1080 x 480",priceColones,priceDolar,R.drawable.celular_libre_samsung_galaxy_j7_4g_white);
+                    (byte)1,"1080 x 480",priceColones,priceDolar,"https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRPGRi9IPqVgUWKRCFuq5h8zRtT7rx46s-lcgcRLcO6Aa_J_KCDTg");
 
             phoneList.add(phone);
             adapter.notifyDataSetChanged();
@@ -189,7 +188,7 @@ public class MenuActivity extends AppCompatActivity
             int priceColones = (int)(Math.random()*200000+10000);
             int priceDolar = (int)(Math.random()*600+50);
             Phone phone = new Phone(brandPhones[i],"algún modelo será","3 GB","100 GB",80,
-                    (byte)1,"1080 x 480",priceColones,priceDolar,R.drawable.iphone);
+                    (byte)1,"1080 x 480",priceColones,priceDolar,"http://s.newsweek.com/sites/www.newsweek.com/files/styles/embed-lg/public/2016/03/02/iphone-7-apple-rumors-leaks-specs-camera.jpg");
             phoneList.add(phone);
             adapter.notifyDataSetChanged();
         }
@@ -204,18 +203,31 @@ public class MenuActivity extends AppCompatActivity
             int priceColones = (int)(Math.random()*200000+10000);
             int priceDolar = (int)(Math.random()*600+50);
             Phone phone = new Phone(brandPhones[i],"algún modelo será","3 GB","100 GB",18,
-                    (byte)1,"1080 x 480",priceColones,priceDolar,R.drawable.lumia);
+                    (byte)1,"1080 x 480",priceColones,priceDolar,"https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcTPxIkgmVWZ2LGPbUOKMKpCfovJ4CIKnjEP8pNSVRPcrLVoiAYFIg");
             phoneList.add(phone);
             adapter.notifyDataSetChanged();
         }
     }
 
 
+    public void simulateSearch(String word){
+        if(word.equalsIgnoreCase("android")){
+            initPhoneCardAndroid();
+        }else if (word.equalsIgnoreCase("ios")){
+            initPhoneCardIOS();
+        }else if(word.equalsIgnoreCase("windows")){
+            initPhoneCardWindows();
+        }else{
+            initPhoneCardAll();
+        }
 
-    /**
-     * Initializing collapsing toolbar
-     * Will show and hide the toolbar title on scroll
-     */
+    }
+
+
+
+
+
+
     private void initCollapsingToolbar() {
         final CollapsingToolbarLayout collapsingToolbar =
                 (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
@@ -244,11 +256,6 @@ public class MenuActivity extends AppCompatActivity
         });
     }
 
-
-
-    /**
-     * RecyclerView item decoration - give equal margin around grid item
-     */
     public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
 
         private int spanCount;
@@ -284,17 +291,10 @@ public class MenuActivity extends AppCompatActivity
         }
     }
 
-    /**
-     * Converting dp to pixel
-     */
     private int dpToPx(int dp) {
         Resources r = getResources();
         return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
     }
-
-
-
-
 
 
     @Override
@@ -336,8 +336,10 @@ public class MenuActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
-            // Handle the camera action
+
         } else if (id == R.id.nav_search) {
+            Intent search = new Intent(MenuActivity.this,SearchPhoneActivity.class);
+            startActivity(search);
 
         } else if (id == R.id.nav_shopping_history) {
 

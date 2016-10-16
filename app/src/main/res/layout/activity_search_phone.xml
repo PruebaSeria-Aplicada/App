@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:fitsSystemWindows="true">
+
+    <LinearLayout
+        android:id="@+id/area_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal">
+
+
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/til_search"
+            android:layout_width="244dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="60dp"
+            >
+
+            <EditText
+                android:id="@+id/txt_word_search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/lbl_nav_search"
+                android:inputType="text"
+                android:singleLine="true" />
+
+
+
+        </android.support.design.widget.TextInputLayout>
+
+
+        <Button
+            android:id="@+id/btn_search"
+            android:layout_width="69dp"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/search_filled_50"
+            android:layout_marginTop="10dp"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            />
+
+    </LinearLayout>
+
+
+
+</android.support.design.widget.CoordinatorLayout>
