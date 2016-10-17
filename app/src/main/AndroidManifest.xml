@@ -33,7 +33,8 @@
 
         <activity android:name=".DetailPhoneActivity" />
         <activity android:name=".SearchPhoneActivity" />
-        <activity android:name=".ReportSaleActivity"></activity>
+        <activity android:name=".ReportSaleActivity" />
+        <activity android:name=".PruebaWSActivity"></activity>
     </application>
 
 </manifest>

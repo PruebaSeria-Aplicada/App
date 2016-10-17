@@ -245,7 +245,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:backgroundTint="@color/colorAccent"
+            android:backgroundTint="@color/colorPrimary"
             android:drawableLeft="@drawable/create_new_52"
             android:text="@string/btn_accept_edit"
             android:textColor="@android:color/white" />

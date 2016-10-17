@@ -9,12 +9,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
 
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
-import java.util.List;
+import com.keggphones.Domain.Phone;
 
 /**
  * Created by mm on 12/10/2016.

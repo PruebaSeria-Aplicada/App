@@ -181,6 +181,8 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
+
+
     public boolean isCorrectName(){
         String name = tilName.getEditText().getText().toString();
         Pattern patron = Pattern.compile("^[a-zA-Z ]+$");

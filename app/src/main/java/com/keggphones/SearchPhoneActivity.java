@@ -2,11 +2,11 @@ package com.keggphones;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.keggphones.WS.ClientWS;
 
 
 public class SearchPhoneActivity extends AppCompatActivity {
@@ -18,10 +18,6 @@ public class SearchPhoneActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_phone);
 
-
-
-
-
         Button btnSearch = (Button)findViewById(R.id.btn_search);
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -29,6 +25,8 @@ public class SearchPhoneActivity extends AppCompatActivity {
                 getWord();
             }
         });
+
+
 
 
 

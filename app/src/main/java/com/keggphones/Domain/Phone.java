@@ -1,8 +1,5 @@
-package com.keggphones;
+package com.keggphones.Domain;
 
-/**
- * Created by mm on 12/10/2016.
- */
 public class Phone {
 
     private int idPhone;
