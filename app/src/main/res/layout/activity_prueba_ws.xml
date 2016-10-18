@@ -9,4 +9,13 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.keggphones.PruebaWSActivity">
 
+    <TextView
+        android:id="@+id/txtMessageWS"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Respuesta del WS:"
+        android:textSize="20dp"
+        />
+
+
 </RelativeLayout>
