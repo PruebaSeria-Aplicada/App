@@ -18,9 +18,9 @@ public class ClientWS extends AsyncTask<String, Integer, String> {
 
     private Context context;
 
-    private static final String SOAP_ACTION = "http://25.45.62.52/Services/ClientService/verifyExistsClient"; //dominio más nombre método
+    private static final String SOAP_ACTION = "http://tempuri.org/IClientService/verifyExistsClient"; //dominio más nombre método
     private static final String OPERATION_NAME = "verifyExistsClient"; //Nombre del método
-    private static final String WSDL_TARGET_NAMESPACE = "ClientService";
+    private static final String WSDL_TARGET_NAMESPACE = "http://tempuri.org/Imports";
     public static final String SOAP_ADDRESS = "http://25.45.62.52/Services/ClientService.svc?wsdl";
 
     public ClientWS(Context context) {
