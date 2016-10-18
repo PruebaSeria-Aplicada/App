@@ -17,7 +17,8 @@ public class PruebaWSActivity extends AppCompatActivity {
 
         txtWS = (TextView)findViewById(R.id.txtMessageWS);
 
-        new ClientWS(this).execute("317","16/10/16","18/10/16","Gerardo","no");
+        //new ClientWS(this).execute("317","16/10/16","18/10/16","Gerardo","no");
+        new ClientWS(this).execute("yarr","456");
 
     }
 }

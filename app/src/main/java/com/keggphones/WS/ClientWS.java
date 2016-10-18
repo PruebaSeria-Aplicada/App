@@ -20,15 +20,15 @@ public class ClientWS extends AsyncTask<String, Integer, String> {
 
     private Context context;
 
-    //private static final String SOAP_ACTION = "http://tempuri.org/IClientService/verifyExistsClient"; //dominio más nombre método
-    //private static final String OPERATION_NAME = "verifyExistsClient"; //Nombre del método
-    //private static final String WSDL_TARGET_NAMESPACE = "http://tempuri.org/IClientService/";
-    //public static final String SOAP_ADDRESS = "http://25.45.62.52/Services/ClientService.svc?wsdl";
+    private static final String SOAP_ACTION = "http://tempuri.org/IClientService/verifyExistsClient"; //dominio más nombre método
+    private static final String OPERATION_NAME = "verifyExistsClient"; //Nombre del método
+    private static final String WSDL_TARGET_NAMESPACE = "http://tempuri.org/";
+    public static final String SOAP_ADDRESS = "http://25.45.62.52/Services/ClientService.svc";
 
-    private static final String SOAP_ACTION = "http://ws.sdde.bccr.fi.cr/ObtenerIndicadoresEconomicosXML"; //dominio más nombre método
-    private static final String OPERATION_NAME = "ObtenerIndicadoresEconomicosXML"; //Nombre del método
-    private static final String WSDL_TARGET_NAMESPACE = "http://ws.sdde.bccr.fi.cr";
-    public static final String SOAP_ADDRESS = "http://indicadoreseconomicos.bccr.fi.cr/indicadoreseconomicos/WebServices/wsIndicadoresEconomicos.asmx";
+    //private static final String SOAP_ACTION = "http://ws.sdde.bccr.fi.cr/ObtenerIndicadoresEconomicosXML"; //dominio más nombre método
+    //private static final String OPERATION_NAME = "ObtenerIndicadoresEconomicosXML"; //Nombre del método
+    //private static final String WSDL_TARGET_NAMESPACE = "http://ws.sdde.bccr.fi.cr";
+    //public static final String SOAP_ADDRESS = "http://indicadoreseconomicos.bccr.fi.cr/indicadoreseconomicos/WebServices/wsIndicadoresEconomicos.asmx";
 
 
     public ClientWS(Context context) {
@@ -54,11 +54,13 @@ public class ClientWS extends AsyncTask<String, Integer, String> {
         HttpTransportSE httpTransport = new HttpTransportSE(SOAP_ADDRESS);
 
         // Se envian los parametros al web service
-        request.addProperty("tcIndicador", params[0]);
-        request.addProperty("tcFechaInicio", params[1]);
-        request.addProperty("tcFechaFinal", params[2]);
-        request.addProperty("tcNombre", params[3]);
-        request.addProperty("tnSubNiveles", params[4]);
+        request.addProperty("nameUser", params[0]);
+        request.addProperty("passwordUser", params[1]);
+        //request.addProperty("tcIndicador", params[0]);
+        //request.addProperty("tcFechaInicio", params[1]);
+        //request.addProperty("tcFechaFinal", params[2]);
+        //request.addProperty("tcNombre", params[3]);
+        //request.addProperty("tnSubNiveles", params[4]);
         try {
 
             // Se hace el llamado al web service
