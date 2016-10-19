@@ -12,12 +12,16 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.keggphones.WS.ClientWS;
+import com.keggphones.WS.getAllPhonesWS;
+
 public class LoginActivity extends AppCompatActivity {
 
     private TextInputLayout tilUserName;
     private TextInputLayout tilPassword;
     private EditText txtUserName;
     private EditText txtPassword;
+    public static String flagWS = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +41,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        new getAllPhonesWS(this).execute("");
 
         Button btnRegistry = (Button)findViewById(R.id.btnRegistry);
         btnRegistry.setOnClickListener(new View.OnClickListener() {
@@ -51,7 +56,6 @@ public class LoginActivity extends AppCompatActivity {
 
         txtUserName = (EditText)findViewById(R.id.txtUserName);
         txtPassword = (EditText)findViewById(R.id.txtPassword);
-
         txtUserName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -92,7 +96,9 @@ public class LoginActivity extends AppCompatActivity {
         if(isCorrectPassword() && isCorrectUserName()){
             //Se hace la validación  en la base da datos, si es correcto se
             //abre la pantalla principal
-            if(isUserDB(txtUserName.toString(),txtPassword.toString())){
+            new ClientWS(this).execute(txtUserName.getText().toString(),txtPassword.getText().toString());
+
+            if(flagWS.equals("1") == true){
 
                 Intent intentMenu = new Intent(LoginActivity.this, MenuActivity.class);
                 //String userName = txtUserName.getText().toString();
@@ -114,12 +120,7 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    //Se realiza la consulta a la base de datos para saber si el usuario existe
-    public boolean isUserDB(String userName, String password){
 
-
-        return true;
-    }
 
     public boolean isCorrectUserName(){
         String userName = tilUserName.getEditText().getText().toString();

@@ -65,7 +65,7 @@ public class PhoneAdapter extends RecyclerView.Adapter<PhoneAdapter.MyViewHolder
         holder.txvPriceDolar.setText("$ " +phone.getPriceDolar());
 
         try {
-            Glide.with(mContext).load(phone.getImagePhone()).into(holder.imcPhone);
+            Glide.with(mContext).load(phone.getImage()).into(holder.imcPhone);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -76,21 +76,21 @@ public class PhoneAdapter extends RecyclerView.Adapter<PhoneAdapter.MyViewHolder
             @Override
             public void onClick(View v) {
                 String flash;
-                if(phone.getFlash()== 1)
+                if(phone.getFlash().equals("1"))
                     flash = "Si";
                 else
                     flash = "No";
 
                 Intent detailPhone = new Intent(mContext,DetailPhoneActivity.class);
-                detailPhone.putExtra("Brand",phone.getBrand().toString());
+                detailPhone.putExtra("Brand",phone.getBrand());
                 detailPhone.putExtra("Model",phone.getModel().toString());
-                detailPhone.putExtra("InternalMemory",String.valueOf(phone.getInternalMemory()));
-                detailPhone.putExtra("ExternalMemory",String.valueOf(phone.getExternalMemory()));
-                detailPhone.putExtra("Pixels",String.valueOf(phone.getPixels()));
+                detailPhone.putExtra("InternalMemory",phone.getInternalMemory());
+                detailPhone.putExtra("ExternalMemory",phone.getExternalMemory());
+                detailPhone.putExtra("Pixels",phone.getPixels());
                 detailPhone.putExtra("Flash",flash);
-                detailPhone.putExtra("Resolution",phone.getResolution().toString());
-                detailPhone.putExtra("Price",String.valueOf(phone.getPrice()));
-                detailPhone.putExtra("Image",phone.getImagePhone());
+                detailPhone.putExtra("Resolution",phone.getResolution());
+                detailPhone.putExtra("Price",phone.getPrice());
+                detailPhone.putExtra("Image",phone.getImage());
                 mContext.startActivity(detailPhone);
 
             }

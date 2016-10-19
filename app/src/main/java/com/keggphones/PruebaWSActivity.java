@@ -5,10 +5,16 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import com.keggphones.WS.ClientWS;
+import com.keggphones.WS.getAllBrandWS;
+import com.keggphones.WS.getAllPhonesWS;
+import com.keggphones.WS.getPhonesWS;
+
+import java.util.concurrent.ExecutionException;
 
 public class PruebaWSActivity extends AppCompatActivity {
 
-    public static  TextView txtWS;
+    public static TextView txtWS;
+    public static String information;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,8 +23,13 @@ public class PruebaWSActivity extends AppCompatActivity {
 
         txtWS = (TextView)findViewById(R.id.txtMessageWS);
 
-        //new ClientWS(this).execute("317","16/10/16","18/10/16","Gerardo","no");
-        new ClientWS(this).execute("yarr","456");
+
+        new getAllPhonesWS(this).execute("");
+
+
+
+
+
 
     }
 }

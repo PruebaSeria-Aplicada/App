@@ -30,7 +30,9 @@ import android.support.design.widget.CollapsingToolbarLayout;
 
 import java.util.ArrayList;
 
+import com.keggphones.Domain.Brand;
 import com.keggphones.Domain.Phone;
+import com.keggphones.WS.getAllPhonesWS;
 
 
 public class MenuActivity extends AppCompatActivity
@@ -119,33 +121,11 @@ public class MenuActivity extends AppCompatActivity
     }
 
 
-
     //Se cargan las cardView con todos los artíuclos
     public void initPhoneCardAll(){
         phoneList.clear();
-        String[] brandPhones = new String[]{
-                "Samsung","Huawei","BLU","CAT","Sony","Alcatel","Hiunday","Coolpad","Google","Yezz",
-        "iPhone 7 Plus "," iPhone 7 ","iPhone 6s Plus","iPhone 6s","iPhone SE","iPhone 5",
-                "iPhone 5 Plus","iPhone 4","iPhone 4 Plus","Lumia 950 "," Lumia 950 XL ","Lumia 650"};
-
-        for(int i = 0; i < brandPhones.length; i++){
-            int priceColones = (int)(Math.random()*200000+10000);
-            int priceDolar = (int)(Math.random()*600+50);
-            if(i < 10) {
-                Phone phone = new Phone(brandPhones[i],"algún modelo será","4 GB","128 GB",10,
-                        (byte)1,"1080 x 480",priceColones,priceDolar,"https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRPGRi9IPqVgUWKRCFuq5h8zRtT7rx46s-lcgcRLcO6Aa_J_KCDTg");
-                phoneList.add(phone);
-            } else if (i < 19){
-                Phone phone = new Phone(brandPhones[i],"algún modelo será","3 GB","100 GB",80,
-                        (byte)1,"1080 x 480",priceColones,priceDolar,"http://s.newsweek.com/sites/www.newsweek.com/files/styles/embed-lg/public/2016/03/02/iphone-7-apple-rumors-leaks-specs-camera.jpg");
-                //Phone phone  = new Phone(brandPhones[i],priceColones,priceDolar, R.drawable.iphone);
-                phoneList.add(phone);
-            }else{
-                Phone phone = new Phone(brandPhones[i],"algún modelo será","3 GB","100 GB",18,
-                        (byte)1,"1080 x 480",priceColones,priceDolar,"https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcTPxIkgmVWZ2LGPbUOKMKpCfovJ4CIKnjEP8pNSVRPcrLVoiAYFIg");
-                //Phone phone  = new Phone(brandPhones[i],priceColones,priceDolar, R.drawable.lumia);
-                phoneList.add(phone);
-            }
+        for(int i = 0; i < getAllPhonesWS.phonesList.size(); i++){
+            phoneList.add(getAllPhonesWS.phonesList.get(i));
             adapter.notifyDataSetChanged();
         }
 
@@ -154,52 +134,35 @@ public class MenuActivity extends AppCompatActivity
     //Se cargan las cardView con todos los artículos Android
     public void initPhoneCardAndroid(){
         phoneList.clear();
-        String[] brandPhones = new String[]{
-                "Samsung","Huawei","BLU","CAT","Sony","Alcatel","Hiunday","Coolpad","Google","Yezz"};
-
-
-        for(int i = 0; i < brandPhones.length; i++){
-            int priceColones = (int)(Math.random()*200000+10000);
-            int priceDolar = (int)(Math.random()*600+50);
-            Phone phone = new Phone(brandPhones[i],"algún modelo será","4 GB","128 GB",10,
-                    (byte)1,"1080 x 480",priceColones,priceDolar,"https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRPGRi9IPqVgUWKRCFuq5h8zRtT7rx46s-lcgcRLcO6Aa_J_KCDTg");
-
-            phoneList.add(phone);
-            adapter.notifyDataSetChanged();
+        for(int i = 0; i < getAllPhonesWS.phonesList.size(); i++){
+            if(getAllPhonesWS.phonesList.get(i).getOs().equalsIgnoreCase("android")){
+                phoneList.add(getAllPhonesWS.phonesList.get(i));
+                adapter.notifyDataSetChanged();
+            }
         }
-
     }
 
     //Se cargan las cardView con todos los artículos IOS
     public void initPhoneCardIOS(){
         phoneList.clear();
-        String[] brandPhones = new String[]{
-                "iPhone 7 Plus "," iPhone 7 ","iPhone 6s Plus","iPhone 6s","iPhone SE","iPhone 5",
-                "iPhone 5 Plus","iPhone 4","iPhone 4 Plus"};
-
-        for(int i = 0; i < brandPhones.length; i++){
-            int priceColones = (int)(Math.random()*200000+10000);
-            int priceDolar = (int)(Math.random()*600+50);
-            Phone phone = new Phone(brandPhones[i],"algún modelo será","3 GB","100 GB",80,
-                    (byte)1,"1080 x 480",priceColones,priceDolar,"http://s.newsweek.com/sites/www.newsweek.com/files/styles/embed-lg/public/2016/03/02/iphone-7-apple-rumors-leaks-specs-camera.jpg");
-            phoneList.add(phone);
-            adapter.notifyDataSetChanged();
+        for(int i = 0; i < getAllPhonesWS.phonesList.size(); i++){
+            if(getAllPhonesWS.phonesList.get(i).getOs().equalsIgnoreCase("ios")){
+                phoneList.add(getAllPhonesWS.phonesList.get(i));
+                adapter.notifyDataSetChanged();
+            }
         }
+
     }
     //Se cargan las cardView con todos los artículos IOS
     public void initPhoneCardWindows(){
         phoneList.clear();
-        String[] brandPhones = new String[]{
-                "Lumia 950 "," Lumia 950 XL ","Lumia 650"};
-
-        for(int i = 0; i < brandPhones.length; i++){
-            int priceColones = (int)(Math.random()*200000+10000);
-            int priceDolar = (int)(Math.random()*600+50);
-            Phone phone = new Phone(brandPhones[i],"algún modelo será","3 GB","100 GB",18,
-                    (byte)1,"1080 x 480",priceColones,priceDolar,"https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcTPxIkgmVWZ2LGPbUOKMKpCfovJ4CIKnjEP8pNSVRPcrLVoiAYFIg");
-            phoneList.add(phone);
-            adapter.notifyDataSetChanged();
+        for(int i = 0; i < getAllPhonesWS.phonesList.size(); i++){
+            if(getAllPhonesWS.phonesList.get(i).getOs().equalsIgnoreCase("windows")){
+                phoneList.add(getAllPhonesWS.phonesList.get(i));
+                adapter.notifyDataSetChanged();
+            }
         }
+
     }
 
 
@@ -215,10 +178,6 @@ public class MenuActivity extends AppCompatActivity
         }
 
     }
-
-
-
-
 
 
     private void initCollapsingToolbar() {
