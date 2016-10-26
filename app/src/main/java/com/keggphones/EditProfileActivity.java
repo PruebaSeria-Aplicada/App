@@ -1,5 +1,6 @@
 package com.keggphones;
 
+import android.content.Intent;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,6 +11,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.keggphones.Domain.Client;
+import com.keggphones.Security.Encryption;
+import com.keggphones.WS.UpdateClientWS;
+import com.keggphones.WS.getInformationClientWS;
 
 import java.util.regex.Pattern;
 
@@ -23,11 +29,23 @@ public class EditProfileActivity extends AppCompatActivity {
     private TextInputLayout tilCard;
     private TextInputLayout tilSvcCard;
     private TextInputLayout tilAddress;
+    private EditText txtName;
+    private EditText txtUserName;
+    private EditText txtEmail;
+    private EditText txtPassword;
+    private EditText txtCard;
+    private EditText txtSvcCard;
+    private EditText txtAddress;
+    public static Client client;
+    Encryption encryption;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
+
+        encryption = new Encryption();
 
         tilName = (TextInputLayout)findViewById(R.id.til_name);
         tilUserName = (TextInputLayout)findViewById(R.id.til_user);
@@ -37,13 +55,26 @@ public class EditProfileActivity extends AppCompatActivity {
         tilSvcCard = (TextInputLayout)findViewById(R.id.til_svcCard);
         tilAddress = (TextInputLayout)findViewById(R.id.til_address);
 
-        EditText txtName = (EditText)findViewById(R.id.txtName);
-        EditText txtUserName = (EditText)findViewById(R.id.txtUserName);
-        EditText txtEmail = (EditText)findViewById(R.id.txtEmail);
-        EditText txtPassword = (EditText)findViewById(R.id.txtPassword);
-        EditText txtCard = (EditText)findViewById(R.id.txtCard);
-        EditText txtSvcCard = (EditText)findViewById(R.id.txtsvcCard);
-        EditText txtAddress = (EditText)findViewById(R.id.txtAddress);
+        txtName = (EditText)findViewById(R.id.txtName);
+        txtUserName = (EditText)findViewById(R.id.txtUserName);
+        txtEmail = (EditText)findViewById(R.id.txtEmail);
+        txtPassword = (EditText)findViewById(R.id.txtPassword);
+        txtCard = (EditText)findViewById(R.id.txtCard);
+        txtSvcCard = (EditText)findViewById(R.id.txtsvcCard);
+        txtAddress = (EditText)findViewById(R.id.txtAddress);
+
+
+        txtName.setText(client.getName());
+        txtUserName.setText(client.getNameUser());
+        txtEmail.setText(client.getEmail());
+        txtPassword.setText(client.getPassword());
+        txtCard.setText(client.getNumberCard());
+        txtSvcCard.setText(client.getSvcCard());
+        txtAddress.setText(client.getAddress());
+
+
+
+
 
 
 
@@ -178,24 +209,34 @@ public class EditProfileActivity extends AppCompatActivity {
     public void validateData(){
         if(isCorrectName() && isCorrectAddress() && isCorrectEmail() && isCorrectNumberCard()
                 && isCorrectSvcCard() && isCorrectUserName() && isCorrectPassword()){
-            if(editProfile()){
 
-
-
-            }else{
-                Toast.makeText(this, "La actualización fue erronea", Toast.LENGTH_LONG).show();
-
-            }
-
+            editProfile();
         }
     }
 
 
     //Actualizar en la base de datos recibe un Objecto tipo client
-    public boolean editProfile(){
+    public void editProfile(){
+        client.setName(txtName.getText().toString());
+        client.setAddress(txtAddress.getText().toString());
+        client.setNameUser(txtUserName.getText().toString());
+        client.setPassword(txtPassword.getText().toString());
+        client.setNumberCard(txtCard.getText().toString());
+        client.setSvcCard(txtSvcCard.getText().toString());
+        client.setEmail(txtEmail.getText().toString());
+
+        String information = client.getIdUser()+";"+client.getName()+";"+client.getLastName_1()+";"+
+                client.getLastName_2()+";"+client.getNameUser()+";"+client.getPassword()+";"+client.getEmail()+
+                ";"+client.getNumberCard()+";"+client.getAddress()+";"+client.getPostalCode()+";"+client.getSvcCard();
+
+        String enInfo = encryption.encrypt(information,client.getNameUser());
 
 
-        return false;
+        new UpdateClientWS(this).execute(enInfo,client.getNameUser());
+        Toast.makeText(this, "Actualización con éxito", Toast.LENGTH_LONG).show();
+        Intent main = new Intent(EditProfileActivity.this,MenuActivity.class);
+        startActivity(main);
+
     }
 
 
@@ -247,7 +288,7 @@ public class EditProfileActivity extends AppCompatActivity {
     private boolean isCorrectSvcCard() {
 
         if (tilSvcCard.getEditText().getText().toString().length() > 3 ||
-                tilSvcCard.getEditText().getText().toString().length() > 1) {
+                tilSvcCard.getEditText().getText().toString().length() < 1) {
             tilSvcCard.setError("Número de SVC inválido");
             return false;
         } else {

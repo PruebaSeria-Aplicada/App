@@ -1,5 +1,6 @@
 package com.keggphones;
 
+import android.content.Intent;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,6 +11,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.keggphones.Security.Encryption;
+import com.keggphones.WS.InsertClientWS;
+import com.keggphones.WS.getAllPhonesWS;
+import com.keggphones.WS.getInformationClientWS;
 
 import org.w3c.dom.Text;
 
@@ -25,6 +31,16 @@ public class MainActivity extends AppCompatActivity {
     private TextInputLayout tilCard;
     private TextInputLayout tilsvcCard;
     private TextInputLayout tilAddress;
+    private EditText txtName;
+    private EditText txtUserName;
+    private EditText txtEmail;
+    private EditText txtPassword;
+    private EditText txtCard;
+    private EditText txtSvcCard;
+    private EditText txtAddress;
+
+
+    Encryption encryption = new Encryption();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,14 +55,13 @@ public class MainActivity extends AppCompatActivity {
         tilsvcCard = (TextInputLayout)findViewById(R.id.til_svcCard);
         tilAddress = (TextInputLayout)findViewById(R.id.til_address);
 
-        EditText txtName = (EditText)findViewById(R.id.txtName);
-        EditText txtUserName = (EditText)findViewById(R.id.txtUserName);
-        EditText txtEmail = (EditText)findViewById(R.id.txtEmail);
-        EditText txtPassword = (EditText)findViewById(R.id.txtPassword);
-        EditText txtCard = (EditText)findViewById(R.id.txtCard);
-        EditText txtSvcCard = (EditText)findViewById(R.id.txtsvcCard);
-        EditText txtAddress = (EditText)findViewById(R.id.txtAddress);
-
+        txtName = (EditText)findViewById(R.id.txtName);
+        txtUserName = (EditText)findViewById(R.id.txtUserName);
+        txtEmail = (EditText)findViewById(R.id.txtEmail);
+        txtPassword = (EditText)findViewById(R.id.txtPassword);
+        txtCard = (EditText)findViewById(R.id.txtCard);
+        txtSvcCard = (EditText)findViewById(R.id.txtsvcCard);
+        txtAddress = (EditText)findViewById(R.id.txtAddress);
 
 
         Button btnAccept = (Button)findViewById(R.id.btn_accept);
@@ -176,17 +191,24 @@ public class MainActivity extends AppCompatActivity {
     public void validateData(){
         if(isCorrectName() && isCorrectAddress() && isCorrectEmail() && isCorrectNumberCard()
                 && isCorrectSvcCard() && isCorrectUserName() && isCorrectPassword()){
-            //Se registra la persona
-            Toast.makeText(this, "Registro con éxito", Toast.LENGTH_LONG).show();
+
+            String[] lastName = txtName.getText().toString().split(" ");
+            String information = "0;"+lastName[0]+";"+lastName[1]+";"+lastName[2]+";"+
+                    txtUserName.getText().toString()+";"+txtPassword.getText().toString()+";"+
+                    txtEmail.getText().toString()+";"+txtCard.getText().toString()+";"+
+                    txtAddress.getText().toString()+";0000;"+txtSvcCard.getText().toString();
+
+            String enInformation = encryption.encrypt(information,txtUserName.getText().toString());
+            //WS para insertar el cliente
+            new InsertClientWS(this).execute(enInformation,txtUserName.getText().toString());
 
         }
     }
-
-
     public boolean isCorrectName(){
         String name = tilName.getEditText().getText().toString();
         Pattern patron = Pattern.compile("^[a-zA-Z ]+$");
-        if (!patron.matcher(name).matches() || name.length() > 30) {
+        String[] names = name.split(" ");
+        if (!patron.matcher(name).matches() || name.length() > 30 || names.length < 2) {
             tilName.setError("Nombre inválido");
             return false;
         } else {
@@ -231,7 +253,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean isCorrectSvcCard() {
 
         if (tilsvcCard.getEditText().getText().toString().length() > 3 ||
-                tilsvcCard.getEditText().getText().toString().length() > 1) {
+                tilsvcCard.getEditText().getText().toString().length() < 1) {
             tilsvcCard.setError("Número de SVC inválido");
             return false;
         } else {

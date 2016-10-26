@@ -5,6 +5,7 @@ package com.keggphones.Domain;
  */
 public class Client {
 
+    private String idUser;
     private String name;
     private String lastName_1;
     private String lastName_2;
@@ -16,13 +17,11 @@ public class Client {
     private String postalCode;
     private String svcCard;
 
-
-    public Client(String name, String lastName_1, String lastName_2, String nameUser, String password,
-                  String email, String numberCard, String address, String postalCode, String svcCard) {
+    public Client(String idUser, String name, String lastName_1, String lastName_2, String password, String email, String numberCard, String address, String postalCode, String svcCard) {
+        this.idUser = idUser;
         this.name = name;
         this.lastName_1 = lastName_1;
         this.lastName_2 = lastName_2;
-        this.nameUser = nameUser;
         this.password = password;
         this.email = email;
         this.numberCard = numberCard;
@@ -109,5 +108,13 @@ public class Client {
 
     public void setSvcCard(String svcCard) {
         this.svcCard = svcCard;
+    }
+
+    public String getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(String idUser) {
+        this.idUser = idUser;
     }
 }

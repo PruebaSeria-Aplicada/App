@@ -1,6 +1,7 @@
 package com.keggphones;
 
 import android.content.Intent;
+import android.os.StrictMode;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,8 +13,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.keggphones.Security.Encryption;
+import com.keggphones.WS.BCCRWS;
 import com.keggphones.WS.ClientWS;
 import com.keggphones.WS.getAllPhonesWS;
+import com.keggphones.WS.getInformationClientWS;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -21,13 +25,15 @@ public class LoginActivity extends AppCompatActivity {
     private TextInputLayout tilPassword;
     private EditText txtUserName;
     private EditText txtPassword;
-    public static String flagWS = "";
+    public static String key = "";
+    Encryption encryption;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        encryption = new Encryption();
+        new BCCRWS(this).execute("317");
 
         tilUserName = (TextInputLayout)findViewById(R.id.til_user);
         tilPassword = (TextInputLayout)findViewById(R.id.til_password);
@@ -37,11 +43,15 @@ public class LoginActivity extends AppCompatActivity {
         btnAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                validateData();
+                try {
+                    validateData();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
-        new getAllPhonesWS(this).execute("");
+
 
         Button btnRegistry = (Button)findViewById(R.id.btnRegistry);
         btnRegistry.setOnClickListener(new View.OnClickListener() {
@@ -92,29 +102,19 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    public void validateData(){
+    public void validateData() throws InterruptedException {
         if(isCorrectPassword() && isCorrectUserName()){
             //Se hace la validación  en la base da datos, si es correcto se
             //abre la pantalla principal
-            new ClientWS(this).execute(txtUserName.getText().toString(),txtPassword.getText().toString());
-
-            if(flagWS.equals("1") == true){
-
-                Intent intentMenu = new Intent(LoginActivity.this, MenuActivity.class);
-                //String userName = txtUserName.getText().toString();
-                //intentMenu.putExtra("userName", userName);
-                startActivity(intentMenu);
-                finish();
-
-            }else{
-                Toast.makeText(this, "El usuario no existe, debe registrase", Toast.LENGTH_LONG).show();
-                /*Descomentar cuando se haga la validación en la base de datos
-                Intent registry = new Intent(LoginActivity.this,MainActivity.class);
-                startActivity(registry);
-                finish();
-                */
-            }
-
+            String userName = txtUserName.getText().toString();
+            String password = txtPassword.getText().toString();
+            key = userName;
+            String client = encryption.encrypt(userName+";"+password,key);
+            String enUser = encryption.encrypt(userName,key);
+            //Consumo ws para verificar el cliente
+            new ClientWS(this).execute(client,key);
+            //Consumo ws para obtener los datos del cliente
+            new getInformationClientWS(this).execute(enUser,key);
 
         }
 
@@ -130,6 +130,8 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             tilUserName.setError(null);
         }
+        //Consumo ws para obtener todos los celulares
+        new getAllPhonesWS(this).execute(userName);
         return true;
     }
     public boolean isCorrectPassword(){

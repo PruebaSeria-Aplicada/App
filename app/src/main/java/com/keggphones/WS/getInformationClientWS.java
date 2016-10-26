@@ -5,7 +5,13 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.keggphones.DetailPhoneActivity;
+import com.keggphones.Domain.Client;
+import com.keggphones.EditProfileActivity;
+import com.keggphones.MainActivity;
 import com.keggphones.PruebaWSActivity;
+import com.keggphones.SearchPhoneActivity;
+import com.keggphones.Security.Encryption;
 
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
@@ -23,10 +29,13 @@ public class getInformationClientWS extends AsyncTask<String, Integer, String> {
 
     private Context context;
 
-    private static final String SOAP_ACTION = "http://tempuri.org/IBrandService/getAllBrands"; //dominio más nombre método
-    private static final String OPERATION_NAME = "getAllBrands"; //Nombre del método
+    private static final String SOAP_ACTION = "http://tempuri.org/IClientService/getClient"; //dominio más nombre método
+    private static final String OPERATION_NAME = "getClient"; //Nombre del método
     private static final String WSDL_TARGET_NAMESPACE = "http://tempuri.org/";
-    public static final String SOAP_ADDRESS = "http://25.45.62.52/Services/BrandService.svc";
+    public static final String SOAP_ADDRESS = "http://25.45.62.52/Services/ClientService.svc";
+
+    private String key;
+    Encryption encryption = new Encryption();
 
     public getInformationClientWS (Context context) {
         this.context = context;
@@ -51,7 +60,9 @@ public class getInformationClientWS extends AsyncTask<String, Integer, String> {
         HttpTransportSE httpTransport = new HttpTransportSE(SOAP_ADDRESS);
 
         // Se envian los parametros al web service
-        //request.addProperty("nameUser", params[0]);
+        request.addProperty("nameUser", params[0]);
+        request.addProperty("key", params[1]);
+        key = params[1];
 
         try {
 
@@ -63,6 +74,7 @@ public class getInformationClientWS extends AsyncTask<String, Integer, String> {
                     .getResponse();
 
             result = resultsRequestSOAP.toString();
+            result = encryption.decrypting(result,key);
 
 
             httpTransport.getServiceConnection().disconnect();
@@ -78,8 +90,17 @@ public class getInformationClientWS extends AsyncTask<String, Integer, String> {
     @Override
     protected void onPostExecute(String result) {
         // Se muestra la respuesta del web service
-        PruebaWSActivity.information = result;
-        Toast.makeText(context,result, Toast.LENGTH_LONG).show();
+        try{
+            String[] resultClient = result.split(";");
+            Client client = new Client(resultClient[0],resultClient[1],resultClient[2],resultClient[3],
+                    resultClient[4],resultClient[5],resultClient[6],resultClient[7],resultClient[8],
+                    resultClient[9]);
+            client.setNameUser(key);
+            EditProfileActivity.client = client;
+            DetailPhoneActivity.client = client;
+        }catch (Exception e){}
+
+
     }
 
 

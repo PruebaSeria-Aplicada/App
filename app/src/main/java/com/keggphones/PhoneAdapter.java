@@ -2,6 +2,8 @@ package com.keggphones;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,8 +15,14 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import com.keggphones.Domain.Phone;
+import com.keggphones.WS.aa;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by mm on 12/10/2016.
@@ -24,7 +32,6 @@ public class PhoneAdapter extends RecyclerView.Adapter<PhoneAdapter.MyViewHolder
 
     private Context mContext;
     private ArrayList<Phone> phoneList;
-
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView txvModel, txvPrice, txvPriceDolar;
         public ImageView imcPhone;
@@ -63,6 +70,9 @@ public class PhoneAdapter extends RecyclerView.Adapter<PhoneAdapter.MyViewHolder
         holder.txvModel.setText(phone.getBrand());
         holder.txvPrice.setText("₡ " + phone.getPrice());
         holder.txvPriceDolar.setText("$ " +phone.getPriceDolar());
+        //System.out.println("URL imagen " + phone.getImage() );
+
+
 
         try {
             Glide.with(mContext).load(phone.getImage()).into(holder.imcPhone);
@@ -70,6 +80,7 @@ public class PhoneAdapter extends RecyclerView.Adapter<PhoneAdapter.MyViewHolder
         } catch (Exception e) {
             e.printStackTrace();
         }
+        //Picasso.with(mContext).load("25.45.62.52/CoreVises/Images/Phones/iphone.png").into(holder.imcPhone);
 
 
         holder.imcPhone.setOnClickListener(new View.OnClickListener() {
@@ -91,6 +102,7 @@ public class PhoneAdapter extends RecyclerView.Adapter<PhoneAdapter.MyViewHolder
                 detailPhone.putExtra("Resolution",phone.getResolution());
                 detailPhone.putExtra("Price",phone.getPrice());
                 detailPhone.putExtra("Image",phone.getImage());
+                detailPhone.putExtra("id",phone.getIdPhone());
                 mContext.startActivity(detailPhone);
 
             }

@@ -32,6 +32,7 @@ import java.util.ArrayList;
 
 import com.keggphones.Domain.Brand;
 import com.keggphones.Domain.Phone;
+import com.keggphones.WS.SearchPhonesWS;
 import com.keggphones.WS.getAllPhonesWS;
 
 
@@ -55,6 +56,7 @@ public class MenuActivity extends AppCompatActivity
         initCollapsingToolbar();
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
+
         phoneList = new ArrayList<>();
 
         adapter = new PhoneAdapter(this, phoneList);
@@ -66,16 +68,16 @@ public class MenuActivity extends AppCompatActivity
         recyclerView.setAdapter(adapter);
 
         try {
+
             Glide.with(this).load(R.drawable.side_nav_bar).into((ImageView) findViewById(R.id.backdrop));
         } catch (Exception e) { e.printStackTrace(); }
 
-        if(SearchPhoneActivity.wordSearch != null){
-            simulateSearch(SearchPhoneActivity.wordSearch);
-        }else{
+
+        if(SearchPhonesWS.flag.equalsIgnoreCase("1")==true){
+            initPhonesSearch();
+        }else {
             initPhoneCardAll();
         }
-
-
 
         Button btnAll = (Button)findViewById(R.id.btn_All);
         btnAll.setOnClickListener(new View.OnClickListener() {
@@ -166,18 +168,16 @@ public class MenuActivity extends AppCompatActivity
     }
 
 
-    public void simulateSearch(String word){
-        if(word.equalsIgnoreCase("android")){
-            initPhoneCardAndroid();
-        }else if (word.equalsIgnoreCase("ios")){
-            initPhoneCardIOS();
-        }else if(word.equalsIgnoreCase("windows")){
-            initPhoneCardWindows();
-        }else{
-            initPhoneCardAll();
+    public void initPhonesSearch(){
+        phoneList.clear();
+        for(int i = 0; i < SearchPhonesWS.phoneList.size(); i++){
+                phoneList.add(SearchPhonesWS.phoneList.get(i));
+                adapter.notifyDataSetChanged();
         }
 
     }
+
+
 
 
     private void initCollapsingToolbar() {
@@ -293,12 +293,9 @@ public class MenuActivity extends AppCompatActivity
             Intent search = new Intent(MenuActivity.this,SearchPhoneActivity.class);
             startActivity(search);
 
-        } else if (id == R.id.nav_shoppingCar) {
-
         } else if (id == R.id.nav_editProfile) {
             Intent editProfile = new Intent(MenuActivity.this, EditProfileActivity.class);
             startActivity(editProfile);
-
         }
         //else if (id == R.id.nav_shopping_history) {}
 

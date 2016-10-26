@@ -6,8 +6,11 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.keggphones.Domain.Phone;
+import com.keggphones.LoginActivity;
+import com.keggphones.MainActivity;
 import com.keggphones.MenuActivity;
 import com.keggphones.PruebaWSActivity;
+import com.keggphones.Security.Encryption;
 
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
@@ -19,16 +22,22 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import static com.keggphones.WS.getAllPhonesWS.phonesList;
+
 
 public class getAllPhonesWS  extends AsyncTask<String, Integer, String> {
 
     private Context context;
+
     public static ArrayList<Phone> phonesList;
 
     private static final String SOAP_ACTION = "http://tempuri.org/IPhoneService/getPhones"; //dominio más nombre método
     private static final String OPERATION_NAME = "getPhones"; //Nombre del método
     private static final String WSDL_TARGET_NAMESPACE = "http://tempuri.org/";
     public static final String SOAP_ADDRESS = "http://25.45.62.52/Services/PhoneService.svc";
+
+    private String key;
+    Encryption encryption  = new Encryption();
 
     public getAllPhonesWS (Context context) {
         this.context = context;
@@ -53,7 +62,8 @@ public class getAllPhonesWS  extends AsyncTask<String, Integer, String> {
         HttpTransportSE httpTransport = new HttpTransportSE(SOAP_ADDRESS);
 
         // Se envian los parametros al web service
-        //request.addProperty("nameUser", params[0]);
+        request.addProperty("key", params[0]);
+        key = params[0];
 
         try {
 
@@ -79,19 +89,24 @@ public class getAllPhonesWS  extends AsyncTask<String, Integer, String> {
 
     @Override
     protected void onPostExecute(String result) {
-        // Se muestra la respuesta del web service
         phonesList = new ArrayList<>();
-        String[] phones = result.split("#");
-        for(int i = 0; i < phones.length; i++){
-            String[] paraPhones = phones[i].split(";");
-            Phone phone =  new Phone(paraPhones[0],paraPhones[1],paraPhones[2],paraPhones[3],
-                    paraPhones[4],paraPhones[5],paraPhones[6],paraPhones[7],paraPhones[8],paraPhones[9],
-                    paraPhones[10],paraPhones[11],paraPhones[12]);
-            phone.setPriceDolar(paraPhones[10]);
-            phonesList.add(phone);
+        try{
+            String information = encryption.decrypting(result,key);
+            String[] phones = information.split("#");
 
-        }
+            for(int i = 0; i < phones.length; i++){
+                String[] paraPhones = phones[i].split(";");
+                String[] price = paraPhones[10].split(",");
+                Phone phone =  new Phone(paraPhones[0],paraPhones[1],paraPhones[2],paraPhones[3],
+                paraPhones[4],paraPhones[5],paraPhones[6],paraPhones[7],paraPhones[8],paraPhones[9],
+                        paraPhones[10],paraPhones[11],paraPhones[12]);
 
+                int quanDolar = ((Integer.parseInt(price[0]))/(Integer.parseInt(BCCRWS.valueDolar)));
+                phone.setPriceDolar(""+quanDolar);
+                phonesList.add(phone);
+
+            }
+        }catch (Exception e){}
 
     }
 

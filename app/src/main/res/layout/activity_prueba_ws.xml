@@ -17,5 +17,12 @@
 
         />
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imcPrueba"
+        android:layout_below="@+id/txtMessageWS"
+        android:src="@drawable/celular_libre_samsung_galaxy_j7_4g_white"/>
+
 
 </RelativeLayout>

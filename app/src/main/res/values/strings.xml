@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Kegg Phones</string>
-    <string name="txt_name">Nombre</string>
+    <string name="txt_name">Nombre completo</string>
     <string name="txt_user_name">Nombre usuario</string>
     <string name="txt_email">Email</string>
     <string name="txt_password">Contraseña</string>
